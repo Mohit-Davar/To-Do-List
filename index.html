@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            To Do List
+        </header>
+        <main>
+            <section class="input">
+                <input type="text" id="input-task" placeholder="Add your task">
+                <button id="add-task">ADD</button>
+            </section>
+            <section class="task-container">
+            </section>
+        </main>
+    </div>
+</body>
+<script>
+
+    // localStorage.clear()
+
+    //Removing Element From DOM
+    let removed = function () {
+        let taskdivs = document.getElementsByClassName('task-div');
+        for (let taskdiv of taskdivs) {
+            let remove = taskdiv.querySelector('.remove')
+            remove.addEventListener('click', () => {
+                taskdiv.remove();
+                saved();
+            })
+        }
+    }
+    //Adding Done Functionality
+    let doned = function () {
+        let taskdivs = document.getElementsByClassName('task-div');
+        for (let taskdiv of taskdivs) {
+            let isbool = true
+            let remove = taskdiv.querySelector('.done')
+            let text = taskdiv.querySelector('.box');
+            remove.addEventListener('click', () => {
+                if (isbool) {
+                    text.style.backgroundColor = '#607d8b';
+                    text.style.textDecoration = 'line-through';
+                    isbool = false;
+                }
+                else {
+                    text.style.backgroundColor = "#1f83f2";
+                    text.style.textDecoration = 'none';
+                    isbool=true
+                }
+                saved();
+
+            })
+        }
+    }
+    //Saving Data
+    let saved = function () {
+        localStorage.setItem("tasks", document.querySelector('.task-container').innerHTML)
+    }
+    //Showing Saved Data
+    let showsaved = function () {
+        document.querySelector('.task-container').innerHTML = localStorage.getItem('tasks')
+        removed()
+    }
+
+    //Adding Element to DOM
+    document.getElementById('add-task').addEventListener('click', () => {
+        if (document.getElementById('input-task').value == "") {
+            window.alert("Enter Some Message");
+        }
+        else {
+            //Getting Value of input-text
+            let tasktext = document.getElementById('input-task').value;
+
+            // making section for one task
+            let taskHTMLelement = document.createElement('div')
+            taskHTMLelement.classList.add('task-div')
+            taskHTMLelement.classList.add('task-section')
+
+            //making div-box for task text
+            let box = document.createElement('div')
+            box.textContent = tasktext;                                         //.task-container->.task-div+.task-section->.box->.task-text
+            box.classList.add('box')                                           //                          !  !->.done
+            taskHTMLelement.appendChild(box);                                 //                          !->.remove
+
+            //Adding Two Buttons
+
+            //Adding Done Button
+            let done = document.createElement('button');
+            done.classList.add('done');
+            done.innerHTML = '<i class="fa-solid fa-check"></i>'
+            taskHTMLelement.appendChild(done);
+            //Adding Delete Button
+            let remove = document.createElement('button')
+            remove.classList.add('remove');
+            remove.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+            console.log(remove.innerHTML)
+            taskHTMLelement.appendChild(remove);
+
+            //Appending created element to DOM
+            document.querySelector('.task-container').appendChild(taskHTMLelement)
+        }
+        document.getElementById('input-task').value = ""
+        removed();
+        doned();
+        saved();
+    });
+
+    showsaved();
+
+
+</script>
+
+</html>

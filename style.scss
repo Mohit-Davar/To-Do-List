@@ -1,0 +1,163 @@
+@mixin reset {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+@mixin flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+@mixin remove-bord-backg {
+    border: none;
+    background: none;
+    outline: none;
+}
+
+$background-color: #2b3136;
+$padd-block: 20px;
+$padd-inline: 3vw;
+$margin-bottom: 20px;
+$box-shadow:  5px 5px 7px rgba(0, 0, 0, 0.25), inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+inset -3px -3px 5px rgba(0, 0, 0, 0.5);
+* {
+    @include reset;
+    user-select: none;
+
+    body {
+        min-height: 100vh;
+
+        background: $background-color;
+
+        @include flex;
+
+        .container {
+            @include flex;
+            justify-content: start;
+
+
+            padding: $padd-block $padd-inline 50px $padd-inline;
+
+            box-shadow: 25px 25px 75px rgba(0, 0, 0, .25),
+                10px 10px 70px rgba(0, 0, 0, 0.25),
+                inset 5px 5px 10px rgba(0, 0, 0, 0.5),
+                inset 5px 5px 20px rgba(255, 255, 255, 0.2),
+                inset -5px -5px 15px rgba(0, 0, 0, 0.75);
+
+
+        }
+
+        header {
+            margin-top: 40px;
+            font-size: clamp(2rem,3vw,10rem);
+            color: white;
+            font-family: 'Ubuntu', sans-serif;
+
+            margin-bottom: $margin-bottom;
+
+        }
+
+        main {
+            height: 70vh;
+            @include flex;
+            justify-content: start;
+            padding-bottom: 30px;
+
+
+            .input {
+                input {
+                    display: block;
+                    width: 70vw;
+                    @include remove-bord-backg;
+                    background-color: white;
+                    padding: $padd-block 1.5vw;
+                    border-radius: 30px;
+                    font-size: 1rem;
+                    box-shadow: $box-shadow;
+
+                    margin-bottom: $margin-bottom;
+                }
+
+                button {
+                    @extend input;
+                    background-color: #1f83f2;
+                    color: white;
+                    padding-block: 10px;
+                    margin-bottom: 50px;
+                }
+            }
+
+            .task-container {
+                font-family: 'Ubuntu', sans-serif;
+                @include flex;
+                justify-content: start;
+                width: 70vw;
+                overflow-y: auto;
+                
+                .task-section {
+                    @include flex;
+                    width: 65vw;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    margin: 10px 0;
+
+                    .box {
+
+
+                        box-shadow: $box-shadow;
+                        background-color: #1f83f2;
+                        border-radius: 30px;
+
+                        color: white;
+                        font-size: clamp(1.25rem, 1.5vw, 10rem);
+                        flex-grow: 2;
+
+                        margin-right: 1vw;
+                        // width: 60vw;
+
+                        padding: 15px 1.5vw;
+
+                        overflow-x: auto;
+                        height: auto;
+                    }
+                    .done {
+                        margin-right: .5vw;
+                        width: clamp(40px,3vw,10rem);
+                        aspect-ratio: 1/1;
+
+                        @include remove-bord-backg;
+                        background: greenyellow;
+
+                        box-shadow: $box-shadow;
+
+                        border-radius: 50%;
+
+                        color: white;
+
+                        font-size: clamp(1rem,1.25vw,10rem);
+                        font-weight: bold;
+
+                    }
+
+                    .remove {
+                        @extend .done;
+                        background: #ff2c74;
+                    }
+                }
+            }
+        }
+    }
+}
+::-webkit-scrollbar-track{
+    box-shadow: inset 0px 0px 15px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #fff;
+}
